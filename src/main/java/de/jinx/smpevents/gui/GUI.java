@@ -1,15 +1,14 @@
 package de.jinx.smpevents.gui;
 
 import de.jinx.smpevents.SMPEvents;
-import de.jinx.smpevents.items.All_Items;
+import de.jinx.smpevents.items.CustomEnchants;
 import de.jinx.smpevents.util.ItemBuilder;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-
-import java.util.Arrays;
 
 public class GUI {
 
@@ -29,13 +28,11 @@ public class GUI {
 
         inv.setItem(15,new ItemBuilder(Material.BEDROCK).setName("§5§kLocked").build());
 
-        String[] asteroidPickaxe = {"Cost: 5 Asteroid Fragment"};
+        String[] pickaxeLore = {"§6This is a Pickaxe made out of Asteroid Fragments.","§6Forged by the §b§lWizard§6.", ChatColor.GRAY+"Smelting I","Cost: 5 Fragments"};
+        ItemStack pickaxe = new ItemBuilder(Material.NETHERITE_PICKAXE).setName("§eAsteroid Pickaxe").setAmount(1).setLore(pickaxeLore).setEnchantment(CustomEnchants.SMELTING,1,true).build();
 
-        ItemStack pickaxe = All_Items.asteroidPickaxe;
-        pickaxe.getItemMeta().setLore(Arrays.asList(asteroidLore));
-        
         if(SMPEvents.getPlugin().cfM.getProgressCfg().getInt("Event.stage") >= 4)
-            inv.setItem(15,All_Items.asteroidPickaxe);
+            inv.setItem(15,pickaxe);
 
         player.openInventory(inv);
     }

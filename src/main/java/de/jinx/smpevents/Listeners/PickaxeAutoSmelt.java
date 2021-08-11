@@ -5,10 +5,15 @@ import de.jinx.smpevents.items.All_Items;
 import de.jinx.smpevents.items.CustomEnchants;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.craftbukkit.libs.org.apache.http.cookie.SM;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.enchantment.EnchantItemEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.inventory.GrindstoneInventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.LinkedHashMap;
@@ -34,7 +39,6 @@ public class PickaxeAutoSmelt implements Listener {
                 Object[] mapOres = oreAutoSmelt.keySet().stream().toArray();
 
                 if(oreBlock.getBlockData().getMaterial() == mapOres[i]){
-                    System.out.println("Found: " +mapOres[i]);
 
                     ItemStack item = new ItemStack(oreAutoSmelt.get(mapOres[i]));
 
@@ -54,26 +58,18 @@ public class PickaxeAutoSmelt implements Listener {
 
     }
 
-}
-/*
-for (int i = 0; i < SMPEvents.getPlugin().AutoSmeltOre.size(); i++) {
+    @EventHandler
+    public void a(InventoryClickEvent e) {
+        if(e.getClickedInventory() == null) return;
 
-            Object[] keys = SMPEvents.getPlugin().AutoSmeltOre.keySet().toArray();
+        if(e.getSlotType() == null) return;
 
-            System.out.println(keys.length);
+        if (e.getClickedInventory().getType() == InventoryType.GRINDSTONE && e.getSlotType() == InventoryType.SlotType.RESULT) {
 
-            if(oreBlock.getBlockData().getMaterial().toString().equals(keys[i].toString())){
+            GrindstoneInventory grindstoneInventory = (GrindstoneInventory) e.getClickedInventory();
 
-                System.out.println("i:"+i+":"+SMPEvents.getPlugin().AutoSmeltOre.get(i) + SMPEvents.getPlugin().AutoSmeltOre.size());
-                ItemStack item = new ItemStack(Material.valueOf(SMPEvents.getPlugin().AutoSmeltOre.get(i).toString()));
-
-                int ingots = (int) (Math.random() * 3 + 1);
-                item.setAmount(ingots);
-
-                oreBlock.getLocation().getWorld().dropItemNaturally(oreBlock.getLocation(),item);
+            if(SMPEvents.isCustomItem(grindstoneInventory.getItem(0)))
                 e.setCancelled(true);
-                oreBlock.setType(Material.AIR);
-                return;
-            }
         }
- */
+    }
+}

@@ -5,6 +5,7 @@ import de.jinx.smpevents.mob.Astroider;
 import de.jinx.smpevents.villager.Wizard;
 import net.minecraft.server.level.WorldServer;
 import org.bukkit.Bukkit;
+import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -29,13 +30,7 @@ public class Commands implements CommandExecutor {
             player.getInventory().addItem(All_Items.asteroidPickaxe);
         }else if (label.equalsIgnoreCase("movein")){
 
-            int x = player.getTargetBlock(null,10).getLocation().getBlockX();
-            int y = player.getTargetBlock(null,10).getLocation().getBlockY() + 1;
-            int z = player.getTargetBlock(null,10).getLocation().getBlockZ();
-
-            Location loc = new Location(player.getWorld(),x,y,z);
-
-            Wizard.createWizardNPC(loc);
+            Wizard.createWizardNPC(player.getLocation());
 
         }else if (label.equalsIgnoreCase("phase")){
 
@@ -45,6 +40,8 @@ public class Commands implements CommandExecutor {
             SMPEvents.getPlugin().cfM.getProgressCfg().set("Event.stage",phase);
             SMPEvents.getPlugin().cfM.getProgressCfg().set("Event.progress",0);
             SMPEvents.getPlugin().cfM.save();
+
+            player.getWorld().playEffect(player.getLocation(), Effect.VILLAGER_PLANT_GROW,10);
 
             ScoreboardHandler.updateScoreboard();
 

@@ -36,38 +36,33 @@ public class VillagerHandler implements Listener {
             ConfigManager cfM = SMPEvents.getPlugin().cfM;
             cfM.reload();
             int stage = cfM.getProgressCfg().getInt("Event.stage");
-            System.out.println(stage);
             switch (stage){
-                case 0:
+                case 1:
                     for (String textLine: SMPEvents.getPlugin().phase0) {
                         e.getPlayer().sendMessage(textLine);
                     }
                     break;
-                case 1:
+                case 2:
                     for (String textLine: SMPEvents.getPlugin().phase1) {
                         e.getPlayer().sendMessage(textLine);
                     }
                     break;
-                case 2:
+                case 3:
                     for (String textLine: SMPEvents.getPlugin().phase2) {
                         e.getPlayer().sendMessage(textLine);
                     }
                     break;
-                case 3:
+                case 4:
                     for (String textLine: SMPEvents.getPlugin().phase3) {
                         e.getPlayer().sendMessage(textLine);
                     }
                     break;
-                case 4:
+                case 5:
                     for (String textLine: SMPEvents.getPlugin().phase4) {
                         e.getPlayer().sendMessage(textLine);
                     }
                     break;
             }
-
-            //Config -> Player -> Stage -> Text
-            //If holding Fragment/Item -> Add to progress -> Scoreboard aktualisieren
-            //Bei Comepletion aus gabe von Stage text
         }
     }
 

@@ -1,6 +1,5 @@
 package de.jinx.smpevents;
 
-import de.jinx.smpevents.Config.ConfigListener;
 import de.jinx.smpevents.Config.ConfigManager;
 import de.jinx.smpevents.Listeners.*;
 import de.jinx.smpevents.items.CustomEnchants;
@@ -9,6 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -45,9 +45,10 @@ public final class SMPEvents extends JavaPlugin {
         pl.registerEvents(new MobHandler(),this);
         pl.registerEvents(new PickaxeAutoSmelt(),this);
         pl.registerEvents(new VillagerHandler(),this);
-        pl.registerEvents(new ConfigListener(),this);
         pl.registerEvents(new GUIHandler(),this);
         pl.registerEvents(new ScoreboadListener(),this);
+        pl.registerEvents(new ForbiddeRecipe(),this);
+        pl.registerEvents(new JoinListener(),this);
 
         getCommand("mob").setExecutor(new Commands());
         getCommand("movein").setExecutor(new Commands());
@@ -104,6 +105,20 @@ public final class SMPEvents extends JavaPlugin {
         return false;
     }
 
+    public static boolean isCustomItem(ItemStack item){
+        if (item == null)
+            return false;
+
+        if (!item.hasItemMeta())
+            return false;
+
+        if (!item.getItemMeta().hasLore())
+            return false;
+
+        return true;
+    }
+
+
     public static SMPEvents getPlugin() {
         return plugin;
     }
@@ -151,7 +166,7 @@ public final class SMPEvents extends JavaPlugin {
         phase3.add(WIZARDPREFIX + "§6It cool feature is that it has the §bEnchantment §5Smelting I");
         phase3.add(WIZARDPREFIX + "§4ISNT THAT GREAT!?");
         phase3.add(WIZARDPREFIX + "...");
-        phase3.add(WIZARDPREFIX + "§6§oBut for that I need 20 other §cFragments§l so go get them ASAP!");
+        phase3.add(WIZARDPREFIX + "§6§oBut for that I need some other §cFragments§l so go get them ASAP!");
     }
     public void fillStoryList5(){
         phase4.add(WIZARDPREFIX + "§a§lPerfect!");

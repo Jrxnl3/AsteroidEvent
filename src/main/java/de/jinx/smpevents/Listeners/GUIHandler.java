@@ -12,6 +12,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 public class GUIHandler implements Listener {
@@ -43,7 +44,7 @@ public class GUIHandler implements Listener {
                     for (int i = 0; i < p.getInventory().getSize(); i++) {
                         ItemStack item = p.getInventory().getItem(i);
 
-                        if(!isCustomItem(item))
+                        if(!SMPEvents.isCustomItem(item))
                             continue;
 
 
@@ -87,27 +88,34 @@ public class GUIHandler implements Listener {
                         }
                     }
                 }
-            }else if(e.getCurrentItem().getItemMeta().getDisplayName().equals(All_Items.asteroidPickaxe)){
+            }else if(e.getCurrentItem().getItemMeta().getDisplayName().equals(All_Items.asteroidPickaxe.getItemMeta().getDisplayName())){
+                if(hasAvaliableSlot(p)){
+                    for (ItemStack item: p.getInventory().getContents()) {
+                        if(!SMPEvents.isCustomItem(item))
+                            continue;
 
-
-
+                        if(item.getItemMeta().getLore().equals(All_Items.asteroidFragments.getItemMeta().getLore())) {
+                            if(item.getAmount() >= 5) {
+                                item.setAmount(item.getAmount() - 5);
+                                p.getInventory().addItem(All_Items.asteroidPickaxe);
+                            }
+                        }
+                    }
+                }
             }
         }
         e.setCancelled(true);
     }
 
-
-
-    public boolean isCustomItem(ItemStack item){
-        if (item == null)
-            return false;
-
-        if (!item.hasItemMeta())
-            return false;
-
-        if (!item.getItemMeta().hasLore())
-            return false;
-
-        return true;
+    public boolean hasAvaliableSlot(Player player){
+        Inventory inv = player.getInventory();
+        for (ItemStack item: inv.getContents()) {
+            if(item == null) {
+                return true;
+            }
+        }
+        return false;
     }
+
+
 }
